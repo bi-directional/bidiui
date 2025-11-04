@@ -15,7 +15,7 @@ export type NumberInputChangeMetadata = {
 
 export type NumberInputControlRef = React.RefObject<
   Partial<{
-    reset: (value: number) => void;
+    reset: (value: number | string) => void;
     increment: (step?: number) => void;
     decrement: (step?: number) => void;
   }>
@@ -141,11 +141,15 @@ export function NumberInput({
           onValueChangeEvent(toPlain(value), dataType);
         },
         increment: (step: number = 1) => {
+          if (dataType === 'int') step = Math.max(1, Math.round(step));
           const newValue = Number(value) + step;
+
           onValueChangeEvent(toPlain(newValue), dataType);
         },
         decrement: (step: number = 1) => {
+          if (dataType === 'int') step = Math.max(1, Math.round(step));
           const newValue = Number(value) - step;
+
           onValueChangeEvent(toPlain(newValue), dataType);
         },
       };
