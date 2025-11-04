@@ -1,3 +1,34 @@
+import { useRef } from 'react';
+
+import { Button } from './components/button';
+import { InputGroup, InputGroupAddon } from './components/input-group';
+
+import { NumberInput, type NumberInputControlRef } from './components/number-input';
+
+import { Plus, Minus } from 'lucide-react';
+
 export default function App() {
-  return <div>App</div>;
+  const control: NumberInputControlRef = useRef({});
+
+  return (
+    <div dir='rtl'>
+      <InputGroup>
+        <InputGroupAddon block>Number Input Example</InputGroupAddon>
+        <InputGroupAddon>
+          <Button onClick={() => control.current.increment?.()}>
+            <Plus />
+          </Button>
+        </InputGroupAddon>
+        <NumberInput nonNegative dataType='float' control={control} onChange={console.log} />
+        <InputGroupAddon>
+          <Button onClick={() => control.current.decrement?.()}>
+            <Minus />
+          </Button>
+        </InputGroupAddon>
+        <InputGroupAddon block>
+          <Button onClick={() => control.current.reset?.('')}>reset</Button>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  );
 }
