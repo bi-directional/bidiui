@@ -7,7 +7,7 @@ export function InputGroup({ className, children, ...props }: InputGroupProps) {
     <div
       role='group'
       className={cn(
-        'flex flex-wrap focus-within:outline **:outline-none gap-1',
+        'inline-flex flex-wrap focus-within:outline **:outline-none gap-1',
         className
       )}
       {...props}
