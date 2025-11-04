@@ -21,17 +21,11 @@ export type NumberInputControlRef = React.RefObject<
   }>
 >;
 
-export type NumberInputProps = Omit<
-  React.ComponentProps<'input'>,
-  'onChange'
-> & {
+export type NumberInputProps = Omit<React.ComponentProps<'input'>, 'onChange'> & {
   dataType?: 'int' | 'float';
   nonNegative?: boolean;
   control?: NumberInputControlRef;
-  onChange?: (
-    value: number | null,
-    metadata: NumberInputChangeMetadata
-  ) => void;
+  onChange?: (value: number | null, metadata: NumberInputChangeMetadata) => void;
 };
 
 const CHAR_REGEX = /[^\d\.]/g;
@@ -53,32 +47,27 @@ export function NumberInput({
   onBlur,
   onChange,
   className,
+  defaultValue = '',
   ...props
 }: NumberInputProps) {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>(defaultValue.toString());
 
   const onBlurEvent = useEvent(onBlur);
   const onChangeEvent = useEvent(onChange);
 
-  const onValueChangeEvent = useEvent(
-    (rawValue: string, dataType: 'int' | 'float') => {
-      const isEmpty = rawValue === '';
-      const value =
-        rawValue === ''
-          ? null
-          : dataType === 'int'
-          ? parseInt(rawValue)
-          : parseFloat(rawValue);
+  const onValueChangeEvent = useEvent((rawValue: string, dataType: 'int' | 'float') => {
+    const isEmpty = rawValue === '';
+    const value =
+      rawValue === '' ? null : dataType === 'int' ? parseInt(rawValue) : parseFloat(rawValue);
 
-      setValue(rawValue);
+    setValue(rawValue);
 
-      onChangeEvent(value, {
-        rawValue,
-        isEmpty,
-        isNaN: !isEmpty && (value == null || isNaN(value)),
-      });
-    }
-  );
+    onChangeEvent(value, {
+      rawValue,
+      isEmpty,
+      isNaN: !isEmpty && (value == null || isNaN(value)),
+    });
+  });
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
