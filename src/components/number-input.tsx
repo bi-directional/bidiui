@@ -50,7 +50,13 @@ export function NumberInput({
   defaultValue = '',
   ...props
 }: NumberInputProps) {
-  const [value, setValue] = useState<string>(defaultValue.toString());
+  const [value, setValue] = useState<string>(
+    nonNegative
+      ? defaultValue.toString().startsWith('-')
+        ? '0'
+        : defaultValue.toString()
+      : defaultValue.toString()
+  );
 
   const onBlurEvent = useEvent(onBlur);
   const onChangeEvent = useEvent(onChange);
@@ -137,7 +143,9 @@ export function NumberInput({
         },
         decrement: (step: number = 1) => {
           if (dataType === 'int') step = Math.max(1, Math.round(step));
-          const newValue = Number(value) - step;
+
+          let newValue = Number(value) - step;
+          if (nonNegative) newValue = Math.max(0, newValue);
 
           onValueChangeEvent(toPlain(newValue), dataType);
         },
