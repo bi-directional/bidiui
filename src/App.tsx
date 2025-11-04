@@ -12,14 +12,21 @@ export default function App() {
 
   return (
     <div dir='rtl'>
-      <InputGroup>
+      <InputGroup className='ltr:flex-row-reverse ltr:justify-end'>
         <InputGroupAddon block>Number Input Example</InputGroupAddon>
         <InputGroupAddon>
           <Button onClick={() => control.current.increment?.()}>
             <Plus />
           </Button>
         </InputGroupAddon>
-        <NumberInput nonNegative dataType='float' control={control} onChange={console.log} />
+        <NumberInput
+          id='num'
+          nonNegative
+          dataType='float'
+          defaultValue={0}
+          control={control}
+          onChange={console.log}
+        />
         <InputGroupAddon>
           <Button onClick={() => control.current.decrement?.()}>
             <Minus />
